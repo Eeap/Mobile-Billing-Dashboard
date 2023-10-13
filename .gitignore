@@ -1,0 +1,10 @@
+# macOS
+**/.DS_Store
+
+# Dev build
+
+# Test
+
+# Environment variables
+.env
+.idea

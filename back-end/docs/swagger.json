@@ -1,0 +1,62 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "This is an auto-generated API Docs.",
+        "title": "API",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "API Support",
+            "email": "your@mail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0"
+    },
+    "basePath": "/api",
+    "paths": {
+        "/v1/s3/download": {
+            "get": {
+                "responses": {}
+            }
+        },
+        "/v1/s3/upload": {
+            "post": {
+                "responses": {}
+            }
+        },
+        "/v1/terraform/apply": {
+            "post": {
+                "responses": {}
+            }
+        },
+        "/v1/terraform/merge": {
+            "post": {
+                "responses": {}
+            }
+        },
+        "/v1/user/key": {
+            "post": {
+                "responses": {}
+            }
+        },
+        "/v1/user/sign/in": {
+            "post": {
+                "responses": {}
+            }
+        },
+        "/v1/user/sign/out": {
+            "post": {
+                "responses": {}
+            }
+        }
+    },
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Authorization",
+            "in": "header"
+        }
+    }
+}
