@@ -1,20 +1,49 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:oktoast/oktoast.dart';
 
-import 'src/app.dart';
-import 'src/settings/settings_controller.dart';
-import 'src/settings/settings_service.dart';
+import 'src/config/router/app_router.dart';
+import 'src/config/themes/app_theme.dart';
+import 'src/domain/repositories/api_repository.dart';
+import 'src/domain/repositories/database_repository.dart';
+import 'src/locator.dart';
+import 'src/presentation/cubits/local_articles/local_articles_cubit.dart';
+import 'src/presentation/cubits/remote_articles/remote_articles_cubit.dart';
+import 'src/utils/constants/strings.dart';
 
-void main() async {
-  // Set up the SettingsController, which will glue user settings to multiple
-  // Flutter Widgets.
-  final settingsController = SettingsController(SettingsService());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
 
-  // Load the user's preferred theme while the splash screen is displayed.
-  // This prevents a sudden theme change when the app is first displayed.
-  await settingsController.loadSettings();
+  await initializeDependencies();
 
-  // Run the app and pass in the SettingsController. The app listens to the
-  // SettingsController for changes, then passes it further down to the
-  // SettingsView.
-  runApp(MyApp(settingsController: settingsController));
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => LocalArticlesCubit(
+            locator<DatabaseRepository>(),
+          )..getAllSavedArticles(),
+        ),
+        BlocProvider(
+          create: (context) => RemoteArticlesCubit(
+            locator<ApiRepository>(),
+          )..getBreakingNewsArticles(),
+        )
+      ],
+      child: OKToast(
+        child: MaterialApp.router(
+          debugShowCheckedModeBanner: false,
+          routerDelegate: appRouter.delegate(),
+          routeInformationParser: appRouter.defaultRouteParser(),
+          title: appTitle,
+          theme: AppTheme.light,
+        ),
+      ),
+    );
+  }
 }
