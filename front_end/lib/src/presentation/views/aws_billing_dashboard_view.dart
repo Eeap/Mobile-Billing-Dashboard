@@ -5,22 +5,22 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../config/router/app_router.dart';
-import '../../domain/models/article.dart';
+import '../../domain/models/resource.dart';
 import '../../utils/extensions/scroll_controller_extensions.dart';
-import '../cubits/remote_articles/remote_articles_cubit.dart';
-import '../widgets/article_widget.dart';
+import '../cubits/remote_resources/remote_resources_cubit.dart';
+import '../widgets/resource_chart_widget.dart';
 
-class BreakingNewsView extends HookWidget {
-  const BreakingNewsView({Key? key}) : super(key: key);
+class AWSBillingDashboardView extends HookWidget {
+  const AWSBillingDashboardView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final remoteArticlesCubit = BlocProvider.of<RemoteArticlesCubit>(context);
+    final remoteResourcesCubit = BlocProvider.of<RemoteResourcesCubit>(context);
     final scrollController = useScrollController();
 
     useEffect(() {
       scrollController.onScrollEndsListener(() {
-        remoteArticlesCubit.getBreakingNewsArticles();
+        remoteResourcesCubit.getAwsResources();
       });
 
       return scrollController.dispose;
@@ -29,30 +29,30 @@ class BreakingNewsView extends HookWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Daily News',
+          'AWS Billing Dashboard',
           style: TextStyle(color: Colors.black),
         ),
         actions: [
           GestureDetector(
-            onTap: () => appRouter.push(const SavedArticlesViewRoute()),
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 14),
               child: Icon(Ionicons.bookmark, color: Colors.black),
             ),
           ),
         ],
+        backgroundColor: Colors.blueGrey,
       ),
-      body: BlocBuilder<RemoteArticlesCubit, RemoteArticlesState>(
+      body: BlocBuilder<RemoteResourcesCubit, RemoteResourcesState>(
         builder: (_, state) {
           switch (state.runtimeType) {
-            case RemoteArticlesLoading:
+            case RemoteResourcesLoading:
               return const Center(child: CupertinoActivityIndicator());
-            case RemoteArticlesFailed:
+            case RemoteResourcesFailed:
               return const Center(child: Icon(Ionicons.refresh));
-            case RemoteArticlesSuccess:
+            case RemoteResourcesSuccess:
               return _buildArticles(
                 scrollController,
-                state.articles,
+                state.resources,
                 state.noMoreData,
               );
             default:
@@ -65,7 +65,7 @@ class BreakingNewsView extends HookWidget {
 
   Widget _buildArticles(
     ScrollController scrollController,
-    List<Article> articles,
+    List<Resource> resources,
     bool noMoreData,
   ) {
     return CustomScrollView(
@@ -73,13 +73,10 @@ class BreakingNewsView extends HookWidget {
       slivers: [
         SliverList(
           delegate: SliverChildBuilderDelegate(
-            (context, index) => ArticleWidget(
-              article: articles[index],
-              onArticlePressed: (e) => appRouter.push(
-                ArticleDetailsViewRoute(article: e),
-              ),
+            (context, index) => ResourseChartWidget(
+              resource: resources[index],
             ),
-            childCount: articles.length,
+            childCount: resources.length,
           ),
         ),
         if (!noMoreData)
