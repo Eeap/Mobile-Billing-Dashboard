@@ -18,7 +18,7 @@ func GetCostUsage(region string, day int) []types.ResultByTime {
 	}
 	svc := costexplorer.NewFromConfig(cfg)
 	resp, err := svc.GetCostAndUsage(context.TODO(), &costexplorer.GetCostAndUsageInput{
-		// Filter:      getFilter(region),
+		Filter:      getFilter(region),
 		Granularity: "DAILY",
 		TimePeriod:  getPeriod(day),
 		Metrics:     []string{"BlendedCost"},
@@ -32,13 +32,6 @@ func GetCostUsage(region string, day int) []types.ResultByTime {
 	if err != nil {
 		log.Fatal(err)
 	}
-	// data를 아래와 같이
-	//  final String? key;
-	//  final double? amount;
-	//  final DateTime? timeEnd;
-	//  final DateTime? timeStart;
-	// json으로 바꿔주는 로직이 필요.
-	log.Println(resp)
 	return resp.ResultsByTime
 }
 
