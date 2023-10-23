@@ -12,7 +12,7 @@ sealed class RemoteResourcesState extends Equatable {
   });
 
   @override
-  List<Object> get props => [resources, noMoreData, error];
+  List<Object?> get props => [resources, noMoreData, error];
 }
 
 class RemoteResourcesLoading extends RemoteResourcesState {
