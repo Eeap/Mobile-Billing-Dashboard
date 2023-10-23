@@ -12,6 +12,5 @@ func PrivateRoutes(a *fiber.App) {
 	route := a.Group("/api/v1")
 
 	// Routes for POST method:
-	route.Post("/login/refresh", middleware.JWTProtected(), controllers.UserRefresh)
 	route.Post("/logout", middleware.JWTProtected(), controllers.UserSignOut)
 }

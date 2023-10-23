@@ -2,9 +2,8 @@ package configs
 
 import (
 	"context"
+	"github.com/aws/aws-sdk-go-v2/service/costexplorer"
 	"os"
-
-	"github.com/aws/aws-sdk-go-v2/service/ec2"
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
@@ -37,7 +36,7 @@ func GetS3Client() *s3.Client {
 	return s3.NewFromConfig(cfg)
 }
 
-func GetEC2Client() *ec2.Client {
+func GetCostExplorerClient() *costexplorer.Client {
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
 		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(GetAWSConfig().AccessKey, GetAWSConfig().SecretKey, "")),
 		config.WithRegion(GetAWSConfig().Region),
@@ -45,5 +44,5 @@ func GetEC2Client() *ec2.Client {
 	if err != nil {
 		return nil
 	}
-	return ec2.NewFromConfig(cfg)
+	return costexplorer.NewFromConfig(cfg)
 }
