@@ -13,7 +13,7 @@ class _ResourceApiService implements ResourceApiService {
     this._dio, {
     this.baseUrl,
   }) {
-    baseUrl ??= 'https://newsapi.org/v2';
+    baseUrl ??= 'http://127.0.0.1:8000/api/v1';
   }
 
   final Dio _dio;
@@ -22,24 +22,26 @@ class _ResourceApiService implements ResourceApiService {
 
   @override
   Future<HttpResponse<AwsResourceResponse>> getAwsResources({
+    email,
     region,
     day,
-    email,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
+      r'email': email,
       r'region': region,
       r'day': day,
-      r'email': email,
     };
     queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Content-Type': 'application/json'};
+    _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<HttpResponse<AwsResourceResponse>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
+      contentType: 'application/json',
     )
             .compose(
               _dio.options,
@@ -48,7 +50,7 @@ class _ResourceApiService implements ResourceApiService {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = AwsResourceResponse.fromMap(_result.data!);
+    final value = AwsResourceResponse.fromJson(_result.data!);
     final httpResponse = HttpResponse(value, _result);
     return httpResponse;
   }
