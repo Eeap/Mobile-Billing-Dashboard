@@ -8,8 +8,7 @@ import (
 
 func GetResourcesCost(c *fiber.Ctx) error {
 	costIn := &models.CostExplorer{}
-
-	if err := c.BodyParser(costIn); err != nil {
+	if err := c.QueryParser(costIn); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error": true,
 			"msg":   err,
@@ -17,7 +16,7 @@ func GetResourcesCost(c *fiber.Ctx) error {
 	}
 	resData, _ := services.GetCostUsageByResource(costIn)
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
-		"data": resData,
-		"msg":  "get cost explorer data",
+		"totalResults": len(resData),
+		"resources":    resData,
 	})
 }

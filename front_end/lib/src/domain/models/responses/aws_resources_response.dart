@@ -1,7 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../resource.dart';
 
+@JsonSerializable()
 class AwsResourceResponse extends Equatable {
   final int totalResults;
   final List<Resource> resources;
@@ -10,8 +12,7 @@ class AwsResourceResponse extends Equatable {
     required this.totalResults,
     required this.resources,
   });
-
-  factory AwsResourceResponse.fromMap(Map<String, dynamic> map) {
+  factory AwsResourceResponse.fromJson(Map<String, dynamic> map) {
     return AwsResourceResponse(
       totalResults: (map['totalResults'] ?? 0) as int,
       resources: List<Resource>.from(
