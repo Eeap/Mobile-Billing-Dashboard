@@ -68,15 +68,17 @@ class AWSBillingDashboardView extends HookWidget {
     List<Resource> resources,
     bool noMoreData,
   ) {
+    // 리소스 가공
+    List<List<Resource>?> mapResources = makeListSort(resources);
     return CustomScrollView(
       controller: scrollController,
       slivers: [
         SliverList(
           delegate: SliverChildBuilderDelegate(
             (context, index) => ResourseChartWidget(
-              resource: resources[index],
-            ),
-            childCount: resources.length,
+                mapResources: mapResources[index],
+                dayData: makeDayData(mapResources[index])),
+            childCount: mapResources.length - 1,
           ),
         ),
         if (!noMoreData)
@@ -88,5 +90,31 @@ class AWSBillingDashboardView extends HookWidget {
           )
       ],
     );
+  }
+
+  List<List<Resource>?> makeListSort(List<Resource> resources) {
+    Map<String?, List<Resource>> _mapData = {};
+    List<List<Resource>?> result = [];
+    for (Resource resource in resources) {
+      if (_mapData.containsKey(resource.key)) {
+        _mapData[resource.key]?.add(resource);
+      } else {
+        _mapData[resource.key] = [];
+      }
+    }
+    for (String? key in _mapData.keys) {
+      result.add(_mapData[key]);
+    }
+    return result;
+  }
+
+  List<String> makeDayData(List<Resource>? mapResources) {
+    // 년도 짜르고 월일만 보내기
+    List<String> dayData = [];
+    for (int i = 0; i < mapResources!.length; i++) {
+      var date = DateTime.parse(mapResources[i].timeStart!);
+      dayData.add(date.month.toString() + "-" + date.day.toString());
+    }
+    return dayData;
   }
 }
