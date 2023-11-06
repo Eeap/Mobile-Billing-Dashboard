@@ -33,11 +33,21 @@ class AWSBillingDashboardView extends HookWidget {
           GestureDetector(
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 14),
-              child: Icon(Ionicons.bookmark, color: Colors.black),
+              child: Icon(Ionicons.notifications_outline, color: Colors.black),
+            ),
+            onTap: () {
+              print("test");
+            },
+          ),
+          Spacer(),
+          GestureDetector(
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14),
+              child: Icon(Ionicons.person_circle_outline, color: Colors.black),
             ),
           ),
         ],
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.blueGrey.shade800.withOpacity(0.8),
       ),
       backgroundColor: Colors.grey,
       body: BlocBuilder<RemoteResourcesCubit, RemoteResourcesState>(
@@ -68,7 +78,6 @@ class AWSBillingDashboardView extends HookWidget {
   ) {
     // 리소스 가공
     List<List<Resource>?> mapResources = makeListSort(resources);
-    print(mapResources);
     return Padding(
       //container 세부 설정
       padding: const EdgeInsets.all(4),
@@ -105,7 +114,7 @@ class AWSBillingDashboardView extends HookWidget {
                   ),
                 ),
                 SliverToBoxAdapter(
-                  child: ResourceAverageWidget(mapResources: mapResources),
+                  child: ResourceAverageWidget(resources: resources),
                 ),
                 // 데이터가 없을 시 처리할 로직 고민
                 // if (!noMoreData)
@@ -146,7 +155,6 @@ class AWSBillingDashboardView extends HookWidget {
       var date = DateTime.parse(mapResources[i].timeEnd!);
       dayData.add(date.month.toString() + "-" + date.day.toString());
     }
-    print(dayData);
     return dayData;
   }
 }
