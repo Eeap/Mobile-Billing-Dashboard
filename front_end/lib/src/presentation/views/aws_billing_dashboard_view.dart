@@ -8,6 +8,7 @@ import '../../config/router/app_router.dart';
 import '../../domain/models/resource.dart';
 import '../../utils/extensions/scroll_controller_extensions.dart';
 import '../cubits/remote_resources/remote_resources_cubit.dart';
+import '../widgets/resource_average_widget.dart';
 import '../widgets/resource_chart_widget.dart';
 
 class AWSBillingDashboardView extends HookWidget {
@@ -28,20 +29,27 @@ class AWSBillingDashboardView extends HookWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'AWS Billing Dashboard',
-          style: TextStyle(color: Colors.black),
-        ),
         actions: [
           GestureDetector(
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 14),
-              child: Icon(Ionicons.bookmark, color: Colors.black),
+              child: Icon(Ionicons.notifications_outline, color: Colors.black),
+            ),
+            onTap: () {
+              print("test");
+            },
+          ),
+          Spacer(),
+          GestureDetector(
+            child: const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 14),
+              child: Icon(Ionicons.person_circle_outline, color: Colors.black),
             ),
           ),
         ],
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Colors.blueGrey.shade800.withOpacity(0.8),
       ),
+      backgroundColor: Colors.grey,
       body: BlocBuilder<RemoteResourcesCubit, RemoteResourcesState>(
         builder: (_, state) {
           switch (state.runtimeType) {
@@ -68,25 +76,76 @@ class AWSBillingDashboardView extends HookWidget {
     List<Resource> resources,
     bool noMoreData,
   ) {
-    return CustomScrollView(
-      controller: scrollController,
-      slivers: [
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            (context, index) => ResourseChartWidget(
-              resource: resources[index],
+    // 리소스 가공
+    List<List<Resource>?> mapResources = makeListSort(resources);
+    return Padding(
+      //container 세부 설정
+      padding: const EdgeInsets.all(4),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 16, top: 20, bottom: 20),
+              child: Row(
+                children: [
+                  Text(
+                    "AWS Billing Dashboard",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                    textAlign: TextAlign.left,
+                  ),
+                ],
+              ),
             ),
-            childCount: resources.length,
-          ),
+            CustomScrollView(
+              shrinkWrap: true,
+              controller: scrollController,
+              slivers: [
+                SliverList(
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) => ResourceChartWidget(
+                        mapResources: mapResources[index],
+                        dayData: makeDayData(mapResources[index])),
+                    childCount: mapResources.length,
+                  ),
+                ),
+                SliverToBoxAdapter(
+                  child: ResourceAverageWidget(resources: resources),
+                ),
+              ],
+            ),
+          ],
         ),
-        if (!noMoreData)
-          const SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.only(top: 14, bottom: 32),
-              child: CupertinoActivityIndicator(),
-            ),
-          )
-      ],
+      ),
     );
+  }
+
+  List<List<Resource>?> makeListSort(List<Resource> resources) {
+    Map<String?, List<Resource>> _mapData = {};
+    List<List<Resource>?> result = [];
+    for (Resource resource in resources) {
+      if (_mapData.containsKey(resource.key)) {
+        _mapData[resource.key]?.add(resource);
+      } else {
+        _mapData[resource.key] = [];
+      }
+    }
+    for (String? key in _mapData.keys) {
+      result.add(_mapData[key]);
+    }
+    return result;
+  }
+
+  List<String> makeDayData(List<Resource>? mapResources) {
+    // 년도 짜르고 월일만 보내기
+    List<String> dayData = [];
+    for (int i = 0; i < mapResources!.length; i++) {
+      var date = DateTime.parse(mapResources[i].timeEnd!);
+      dayData.add(date.month.toString() + "-" + date.day.toString());
+    }
+    return dayData;
   }
 }
