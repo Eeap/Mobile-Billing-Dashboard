@@ -167,10 +167,9 @@ class ResourceChartWidget extends StatelessWidget {
       if (amount < 0.0001 && amount > 0)
         amount = 0.0001;
       else if (amount < 0) amount = 0;
-      double amountData = amount;
-      data.add(FlSpot(i, amountData));
-      if (maxData < amountData) {
-        maxData = amountData;
+      data.add(FlSpot(i, amount));
+      if (maxData < amount) {
+        maxData = amount;
       }
     }
     return data;

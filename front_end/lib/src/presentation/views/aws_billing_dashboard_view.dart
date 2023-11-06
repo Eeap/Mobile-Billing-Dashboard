@@ -81,27 +81,26 @@ class AWSBillingDashboardView extends HookWidget {
     return Padding(
       //container 세부 설정
       padding: const EdgeInsets.all(4),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Padding(
-            padding: EdgeInsets.only(left: 16, top: 20, bottom: 20),
-            child: Row(
-              children: [
-                Text(
-                  "AWS Billing Dashboard",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 22,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Padding(
+              padding: EdgeInsets.only(left: 16, top: 20, bottom: 20),
+              child: Row(
+                children: [
+                  Text(
+                    "AWS Billing Dashboard",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 22,
+                    ),
+                    textAlign: TextAlign.left,
                   ),
-                  textAlign: TextAlign.left,
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          Container(
-            child: CustomScrollView(
+            CustomScrollView(
               shrinkWrap: true,
               controller: scrollController,
               slivers: [
@@ -116,18 +115,10 @@ class AWSBillingDashboardView extends HookWidget {
                 SliverToBoxAdapter(
                   child: ResourceAverageWidget(resources: resources),
                 ),
-                // 데이터가 없을 시 처리할 로직 고민
-                // if (!noMoreData)
-                //   const SliverToBoxAdapter(
-                //     child: Padding(
-                //       padding: EdgeInsets.only(top: 14, bottom: 32),
-                //       child: CupertinoActivityIndicator(),
-                //     ),
-                //   )
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
