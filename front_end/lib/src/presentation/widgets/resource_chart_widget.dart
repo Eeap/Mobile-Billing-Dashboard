@@ -17,14 +17,13 @@ class ResourceChartWidget extends StatelessWidget {
   double maxData = 0.0;
   @override
   Widget build(BuildContext context) {
-    print(mapResources);
     return SafeArea(
       top: false,
       bottom: false,
       child: Padding(
         padding: const EdgeInsets.all(1),
         child: Card(
-          color: Colors.blueGrey.withOpacity(0.8),
+          color: Colors.blueGrey.shade800.withOpacity(0.8),
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.0),
@@ -40,6 +39,7 @@ class ResourceChartWidget extends StatelessWidget {
                     color: Colors.orangeAccent,
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
+                    fontStyle: FontStyle.italic,
                   ),
                 ),
               ),
@@ -71,13 +71,13 @@ class ResourceChartWidget extends StatelessWidget {
         verticalInterval: 1,
         getDrawingHorizontalLine: (value) {
           return const FlLine(
-            color: Colors.black,
+            color: Colors.grey,
             strokeWidth: 1.0,
           );
         },
         getDrawingVerticalLine: (value) {
           return const FlLine(
-            color: Colors.black,
+            color: Colors.grey,
             strokeWidth: 1.0,
           );
         },
@@ -107,7 +107,7 @@ class ResourceChartWidget extends StatelessWidget {
       ),
       borderData: FlBorderData(
         show: true,
-        border: Border.all(color: const Color(0xff37434d)),
+        border: Border.all(color: Colors.grey),
       ),
       minX: 0.0,
       // maxX: (dayData.length - 1).toDouble(),
@@ -156,21 +156,23 @@ class ResourceChartWidget extends StatelessWidget {
       fontSize: 9,
       color: Colors.white,
     );
-    String text = value.toString() + '\$';
+    String text = '\$ ' + value.toString();
     return Text(text, style: style, textAlign: TextAlign.left);
   }
 
   List<FlSpot> makeSpotData() {
     List<FlSpot> data = [];
     for (double i = 0; i < mapResources!.length; i++) {
-      double amountData = double.parse(
-          double.parse(mapResources![i.toInt()].amount!).toStringAsFixed(10));
+      double amount = double.parse(mapResources![i.toInt()].amount!);
+      if (amount < 0.0001 && amount > 0)
+        amount = 0.0001;
+      else if (amount < 0) amount = 0;
+      double amountData = amount;
       data.add(FlSpot(i, amountData));
       if (maxData < amountData) {
         maxData = amountData;
       }
     }
-    print(maxData);
     return data;
   }
 }
