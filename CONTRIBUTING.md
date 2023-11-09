@@ -1,20 +1,20 @@
-## Mobile Billing Dashboard contributing guide
+## Mobile Billing Dashboard with AWS contributing guide
 Thank you for your interest in contributing to our project! This guide will provide you with an overview of the contribution workflow, from opening an issue to creating a pull request (PR), reviewing, and merging the PR.
 
 ## Guide for New Contributors
-To gain a better understanding of the project, please read the [README](https://github.com/Terraform-Canvas/back-end).
+To gain a better understanding of the project, please read the [README](https://github.com/Eeap/Mobile-Billing-Dashboard).
 It contains valuable information on how to start making open-source contributions.
 
 ## Getting Started
 ### Issues
 
 #### Creating a New Issue
-Before creating a new issue, please search to check if a similar issue already exists. If you can't find a related issue, you can open a new one using the appropriate [issue form](https://github.com/Terraform-Canvas/back-end/issues/new/choose).
+Before creating a new issue, please search to check if a similar issue already exists. If you can't find a related issue, you can open a new one using the appropriate [issue form](https://github.com/Eeap/Mobile-Billing-Dashboard/issues/new/choose).
 #### Resolving an Issue
 Feel free to browse through our existing issues to find one that aligns with your interests. You can utilize labels as filters to narrow down your search. For more details, refer to the Labels section. Typically, we don't assign issues to specific individuals. If you identify an issue you'd like to address, you're welcome to open a PR with your proposed fix.
 ### Making Changes
 1. Fork the repository.
-2. Install or update dependency such as Node.js. For more information, see [README](https://github.com/Terraform-Canvas/back-end).
+2. Install or update dependency such as Node.js. For more information, see [README](https://github.com/Eeap/Mobile-Billing-Dashboard).
 3. Create a working branch and start with your changes! (eg. feat/newFeature)
 4. Test your code using prepared test code, you can add additional test code.
 5. Commit your updates.
