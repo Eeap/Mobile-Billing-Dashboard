@@ -112,18 +112,18 @@ curl -i -H 'Accept: application/json' http://localhost:8000/api/v1/aws-resource?
 - Description - aws resource cost list 반환
 ```json
 {
-	statusCode: 200,
-	data: {
-		resources: [
-            {
-                Key:       "Amazon Simple Storage Service",
-                Amount:    "2.8",
-                TimeEnd:   "2023-11-01",
-                TimeStart: "2023-11-02",
-		    },
-        ],
-        totalResults: 1
-	}
+  "statusCode": 200,
+  "data": {
+    "resources": [
+      {
+          "key":       "Amazon Simple Storage Service",
+          "amount":    "2.8",
+          "timeEnd":   "2023-11-01",
+          "timeStart": "2023-11-02",
+      },
+    ],
+    "totalResults": 1
+  }
 }
 ```
 
@@ -138,16 +138,16 @@ curl -i -H 'Accept: application/json' http://localhost:8000/api/v1/alert-message
 - Description - alert message list 반환
 ```json
 {
-	statusCode: 200,
-	data: {
-		messages: [
-            {
-                Time:    "2023-11-08 20:55:00",
-                Message: "리소스 총 사용 요금이 70% 초과하였습니다.",
-            },
-        ],
-        totalResults: 1
-	}
+  "statusCode": 200,
+  "data": {
+    "messages": [
+        {
+            "time":    "2023-11-08 20:55:00",
+            "message": "리소스 총 사용 요금이 70% 초과하였습니다.",
+        },
+    ],
+    "totalResults": 1
+  }
 }
 ```
 
@@ -167,10 +167,10 @@ curl -i -H 'Accept: application/json' http://localhost:8000/api/v1/user-key
 - Description - key 저장 완료 메시지
 ```json
 {
-	statusCode: 200,
-	data: {
-		message: "key store success"
-	}
+  "statusCode": 200,
+  "data": {
+    "message": "key store success"
+  }
 }
 ```
 
