@@ -179,6 +179,28 @@ curl -i -H 'Accept: application/json' http://localhost:8000/api/v1/user-key
 }
 ```
 
+### ❗️Post `/api/v1/alert-setting`
+#### Request
+- Description - cost alert 설정 요청
+```bash
+curl -i -H 'Accept: application/json' http://localhost:8000/api/v1/alert-setting
+
+{
+    email: "test@gmail.com",
+    timeEnd: "2023-11-24 16:00:00",
+    targetCost: 100
+}
+```
+#### Response
+- Description - alert 설정 성공 메시지
+```json
+{
+  "statusCode": 200,
+  "data": {
+    "message": "alert setting success"
+  }
+}
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
