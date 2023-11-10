@@ -22,7 +22,13 @@ class _$AppRouter extends RootStackRouter {
         routeData: routeData,
         child: const AWSBillingDashboardView(),
       );
-    }
+    },
+    AlertViewRoute.name: (routeData) {
+      return AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const AlertView(),
+      );
+    },
   };
 
   @override
@@ -30,7 +36,11 @@ class _$AppRouter extends RootStackRouter {
         RouteConfig(
           AWSBillingDashboardViewRoute.name,
           path: '/',
-        )
+        ),
+        RouteConfig(
+          AlertViewRoute.name,
+          path: '/alert-view',
+        ),
       ];
 }
 
@@ -44,4 +54,16 @@ class AWSBillingDashboardViewRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AWSBillingDashboardViewRoute';
+}
+
+/// generated route for
+/// [AlertView]
+class AlertViewRoute extends PageRouteInfo<void> {
+  const AlertViewRoute()
+      : super(
+          AlertViewRoute.name,
+          path: '/alert-view',
+        );
+
+  static const String name = 'AlertViewRoute';
 }
