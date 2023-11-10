@@ -7,9 +7,11 @@ import 'package:ionicons/ionicons.dart';
 import '../../config/router/app_router.dart';
 import '../../domain/models/resource.dart';
 import '../../utils/extensions/scroll_controller_extensions.dart';
+import '../cubits/profile/profile_cubit.dart';
 import '../cubits/remote_resources/remote_resources_cubit.dart';
 import '../widgets/resource_average_widget.dart';
 import '../widgets/resource_chart_widget.dart';
+import '../widgets/user_key_widget.dart';
 
 class AWSBillingDashboardView extends HookWidget {
   const AWSBillingDashboardView({Key? key}) : super(key: key);
@@ -17,6 +19,7 @@ class AWSBillingDashboardView extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final remoteResourcesCubit = BlocProvider.of<RemoteResourcesCubit>(context);
+    final profileCubit = BlocProvider.of<ProfileCubit>(context);
     final scrollController = useScrollController();
 
     useEffect(() {
@@ -33,18 +36,30 @@ class AWSBillingDashboardView extends HookWidget {
           GestureDetector(
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 14),
-              child: Icon(Ionicons.notifications_outline, color: Colors.black),
+              child: Icon(Ionicons.notifications_outline,
+                  color: Colors.orangeAccent),
             ),
             onTap: () {
-              print("test");
+              appRouter.push(
+                const AlertViewRoute(),
+              );
             },
           ),
-          Spacer(),
+          const Spacer(),
           GestureDetector(
             child: const Padding(
               padding: EdgeInsets.symmetric(horizontal: 14),
-              child: Icon(Ionicons.person_circle_outline, color: Colors.black),
+              child: Icon(Ionicons.person_circle_outline,
+                  color: Colors.orangeAccent),
             ),
+            onTap: () {
+              showDialog(
+                builder: (context) => UserKeyWidget(
+                  profileCubit: profileCubit,
+                ),
+                context: context,
+              );
+            },
           ),
         ],
         backgroundColor: Colors.blueGrey.shade800.withOpacity(0.8),
@@ -130,7 +145,7 @@ class AWSBillingDashboardView extends HookWidget {
       if (_mapData.containsKey(resource.key)) {
         _mapData[resource.key]?.add(resource);
       } else {
-        _mapData[resource.key] = [];
+        _mapData[resource.key] = [resource];
       }
     }
     for (String? key in _mapData.keys) {
@@ -143,7 +158,7 @@ class AWSBillingDashboardView extends HookWidget {
     // 년도 짜르고 월일만 보내기
     List<String> dayData = [];
     for (int i = 0; i < mapResources!.length; i++) {
-      var date = DateTime.parse(mapResources[i].timeEnd!);
+      var date = DateTime.parse(mapResources[i].timeStart!);
       dayData.add(date.month.toString() + "-" + date.day.toString());
     }
     return dayData;
