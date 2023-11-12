@@ -28,45 +28,55 @@ class AlertView extends HookWidget {
       return scrollController.dispose;
     }, const []);
 
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          const Spacer(),
-          GestureDetector(
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 14),
-              child: Icon(Ionicons.settings_outline, color: Colors.orange),
-            ),
-            onTap: () => {
-              showDialog(
-                builder: (context) => AlertSettingsWidget(
-                  alertCubit: alertCubit,
-                ),
-                context: context,
-              )
-            },
-          ),
-        ],
-        backgroundColor: Colors.blueGrey.shade800.withOpacity(0.8),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            const Color.fromARGB(255, 55, 106, 194),
+            const Color.fromARGB(255, 233, 185, 114),
+          ],
+        ),
       ),
-      backgroundColor: Colors.grey,
-      body: BlocBuilder<AlertCubit, AlertState>(
-        builder: (_, state) {
-          switch (state.runtimeType) {
-            case AlertLoading:
-              return const Center(child: CupertinoActivityIndicator());
-            case AlertFailed:
-              return const Center(child: Icon(Ionicons.refresh));
-            case AlertSuccess:
-              return _buildAlerts(
-                scrollController,
-                state.messages,
-                state.noMoreData,
-              );
-            default:
-              return const SizedBox();
-          }
-        },
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            const Spacer(),
+            GestureDetector(
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 14),
+                child: Icon(Ionicons.settings_outline, color: Colors.orange),
+              ),
+              onTap: () => {
+                showDialog(
+                  builder: (context) => AlertSettingsWidget(
+                    alertCubit: alertCubit,
+                  ),
+                  context: context,
+                )
+              },
+            ),
+          ],
+          backgroundColor: Color.fromARGB(255, 18, 65, 103).withOpacity(0.3),
+        ),
+        backgroundColor: Colors.transparent,
+        body: BlocBuilder<AlertCubit, AlertState>(
+          builder: (_, state) {
+            switch (state.runtimeType) {
+              case AlertLoading:
+                return const Center(child: CupertinoActivityIndicator());
+              case AlertFailed:
+                return const Center(child: Icon(Ionicons.refresh));
+              case AlertSuccess:
+                return _buildAlerts(
+                  scrollController,
+                  state.messages,
+                  state.noMoreData,
+                );
+              default:
+                return const SizedBox();
+            }
+          },
+        ),
       ),
     );
   }
