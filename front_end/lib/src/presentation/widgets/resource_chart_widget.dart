@@ -23,7 +23,7 @@ class ResourceChartWidget extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(1),
         child: Card(
-          color: Colors.blueGrey.shade800.withOpacity(0.8),
+          color: const Color.fromARGB(255, 42, 129, 201).withOpacity(0.2),
           clipBehavior: Clip.antiAlias,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16.0),

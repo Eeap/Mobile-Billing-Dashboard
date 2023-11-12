@@ -30,58 +30,68 @@ class AWSBillingDashboardView extends HookWidget {
       return scrollController.dispose;
     }, const []);
 
-    return Scaffold(
-      appBar: AppBar(
-        actions: [
-          GestureDetector(
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 14),
-              child: Icon(Ionicons.notifications_outline,
-                  color: Colors.orangeAccent),
-            ),
-            onTap: () {
-              appRouter.push(
-                const AlertViewRoute(),
-              );
-            },
-          ),
-          const Spacer(),
-          GestureDetector(
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 14),
-              child: Icon(Ionicons.person_circle_outline,
-                  color: Colors.orangeAccent),
-            ),
-            onTap: () {
-              showDialog(
-                builder: (context) => UserKeyWidget(
-                  profileCubit: profileCubit,
-                ),
-                context: context,
-              );
-            },
-          ),
-        ],
-        backgroundColor: Colors.blueGrey.shade800.withOpacity(0.8),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          colors: [
+            const Color.fromARGB(255, 55, 106, 194),
+            const Color.fromARGB(255, 233, 185, 114),
+          ],
+        ),
       ),
-      backgroundColor: Colors.grey,
-      body: BlocBuilder<RemoteResourcesCubit, RemoteResourcesState>(
-        builder: (_, state) {
-          switch (state.runtimeType) {
-            case RemoteResourcesLoading:
-              return const Center(child: CupertinoActivityIndicator());
-            case RemoteResourcesFailed:
-              return const Center(child: Icon(Ionicons.refresh));
-            case RemoteResourcesSuccess:
-              return _buildArticles(
-                scrollController,
-                state.resources,
-                state.noMoreData,
-              );
-            default:
-              return const SizedBox();
-          }
-        },
+      child: Scaffold(
+        appBar: AppBar(
+          actions: [
+            GestureDetector(
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 14),
+                child: Icon(Ionicons.notifications_outline,
+                    color: Colors.orangeAccent),
+              ),
+              onTap: () {
+                appRouter.push(
+                  const AlertViewRoute(),
+                );
+              },
+            ),
+            const Spacer(),
+            GestureDetector(
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 14),
+                child: Icon(Ionicons.person_circle_outline,
+                    color: Colors.orangeAccent),
+              ),
+              onTap: () {
+                showDialog(
+                  builder: (context) => UserKeyWidget(
+                    profileCubit: profileCubit,
+                  ),
+                  context: context,
+                );
+              },
+            ),
+          ],
+          backgroundColor: Color.fromARGB(255, 18, 65, 103).withOpacity(0.3),
+        ),
+        backgroundColor: Colors.transparent,
+        body: BlocBuilder<RemoteResourcesCubit, RemoteResourcesState>(
+          builder: (_, state) {
+            switch (state.runtimeType) {
+              case RemoteResourcesLoading:
+                return const Center(child: CupertinoActivityIndicator());
+              case RemoteResourcesFailed:
+                return const Center(child: Icon(Ionicons.refresh));
+              case RemoteResourcesSuccess:
+                return _buildArticles(
+                  scrollController,
+                  state.resources,
+                  state.noMoreData,
+                );
+              default:
+                return const SizedBox();
+            }
+          },
+        ),
       ),
     );
   }
