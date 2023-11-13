@@ -8,7 +8,11 @@ import (
 
 func GetCostUsageByResource(costIn *models.CostExplorer) ([]models.CostResource, error) {
 	// 구조체의 리스트를 반환하는 로직 필요
-	costData := amazon.GetCostUsage(costIn.Region, costIn.Day)
+	iamKey, err2 := amazon.S3GetObject(costIn.Email)
+	if err2 != nil {
+		return nil, err2
+	}
+	costData := amazon.GetCostUsage(costIn.Region, costIn.Day, iamKey)
 	costResources, err := makeCostResource(costData)
 	if err != nil {
 		return []models.CostResource{}, err
@@ -28,8 +32,8 @@ func makeCostResource(costData []types.ResultByTime) ([]models.CostResource, err
 			costResources = append(costResources, models.CostResource{
 				Key:       resourceName,
 				Amount:    *resourceAmount,
-				TimeStart: *timeEnd,
-				TimeEnd:   *timeStart,
+				TimeStart: *timeStart,
+				TimeEnd:   *timeEnd,
 			})
 		}
 	}
