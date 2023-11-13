@@ -22,17 +22,17 @@ class AWSBillingDashboardView extends HookWidget {
     final profileCubit = BlocProvider.of<ProfileCubit>(context);
     final scrollController = useScrollController();
 
-    useEffect(() {
-      scrollController.onScrollEndsListener(() {
-        remoteResourcesCubit.getAwsResources();
-      });
+    // useEffect(() {
+    //   scrollController.onScrollEndsListener(() {
+    //     remoteResourcesCubit.getAwsResources();
+    //   });
 
-      return scrollController.dispose;
-    }, const []);
+    //   return scrollController.dispose;
+    // }, const []);
 
     return Container(
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [
             const Color.fromARGB(255, 55, 106, 194),
             const Color.fromARGB(255, 233, 185, 114),
@@ -41,6 +41,7 @@ class AWSBillingDashboardView extends HookWidget {
       ),
       child: Scaffold(
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           actions: [
             GestureDetector(
               child: const Padding(
