@@ -5,10 +5,16 @@ import 'package:retrofit/retrofit.dart';
 
 import '../../../domain/models/requests/alert_setting_request.dart';
 import '../../../domain/models/requests/aws_resources_request.dart';
+import '../../../domain/models/requests/login_request.dart';
+import '../../../domain/models/requests/logout_request.dart';
+import '../../../domain/models/requests/sign_up_request.dart';
 import '../../../domain/models/requests/user_key_request.dart';
 import '../../../domain/models/responses/alert_response.dart';
 import '../../../domain/models/responses/alert_setting_response.dart';
 import '../../../domain/models/responses/aws_resources_response.dart';
+import '../../../domain/models/responses/login_response.dart';
+import '../../../domain/models/responses/logout_response.dart';
+import '../../../domain/models/responses/sign_up_response.dart';
 import '../../../domain/models/responses/user_key_response.dart';
 import '../../../utils/constants/strings.dart';
 
@@ -41,5 +47,20 @@ abstract class ResourceApiService {
   @POST("/user-key")
   Future<HttpResponse<UserKeyResponse>> setProfileKey({
     @Body() UserKeyRequest? reqData,
+  });
+  @Headers({"Content-Type": "application/json"})
+  @POST("/sign-up")
+  Future<HttpResponse<SignUpResponse>> signUp({
+    @Body() SignUpRequest? reqData,
+  });
+  @Headers({"Content-Type": "application/json"})
+  @POST("/login")
+  Future<HttpResponse<LoginResponse>> login({
+    @Body() LoginRequest? reqData,
+  });
+  @Headers({"Content-Type": "application/json"})
+  @POST("/logout")
+  Future<HttpResponse<LogoutResponse>> logout({
+    @Body() LogoutRequest? reqData,
   });
 }
