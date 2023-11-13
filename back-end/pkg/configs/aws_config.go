@@ -36,9 +36,9 @@ func GetS3Client() *s3.Client {
 	return s3.NewFromConfig(cfg)
 }
 
-func GetCostExplorerClient() *costexplorer.Client {
+func GetCostExplorerClient(iamKey []string) *costexplorer.Client {
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
-		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(GetAWSConfig().AccessKey, GetAWSConfig().SecretKey, "")),
+		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(iamKey[0], iamKey[1], "")),
 		config.WithRegion(GetAWSConfig().Region),
 	)
 	if err != nil {

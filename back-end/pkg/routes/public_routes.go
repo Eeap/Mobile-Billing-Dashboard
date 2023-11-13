@@ -11,4 +11,7 @@ func PublicRoutes(a *fiber.App) {
 	route := a.Group("/api/v1")
 	// Routes for POST method:
 	route.Post("/login/new", controllers.UserSignIn)
+	route.Get("/aws-resource", controllers.GetResourcesCost)
+	route.Get("/alert-messages", controllers.GetAlertMessages)
+	route.Post("/user-key", controllers.UserKeySet)
 }

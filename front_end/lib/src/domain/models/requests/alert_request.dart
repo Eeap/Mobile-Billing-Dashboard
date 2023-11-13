@@ -3,19 +3,13 @@ import 'package:json_annotation/json_annotation.dart';
 import '../../../utils/constants/strings.dart';
 
 @JsonSerializable()
-class AwsResourceRequest {
-  final String? region;
-  final int? day;
+class AlertRequest {
   final String email;
 
-  AwsResourceRequest({
-    this.region = defaultregion,
-    this.day = defaultday,
+  AlertRequest({
     this.email = defaultemail,
   });
   Map<String, dynamic> toJson() => {
-        'region': region,
-        'day': day,
         'email': email,
       };
 }

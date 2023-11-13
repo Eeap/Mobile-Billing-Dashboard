@@ -2,9 +2,9 @@ import 'package:equatable/equatable.dart';
 
 class Resource extends Equatable {
   final String? key;
-  final double? amount;
-  final DateTime? timeEnd;
-  final DateTime? timeStart;
+  final String? amount;
+  final String? timeEnd;
+  final String? timeStart;
 
   const Resource({
     this.key,
@@ -15,10 +15,10 @@ class Resource extends Equatable {
 
   factory Resource.fromMap(Map<String, dynamic> map) {
     return Resource(
-      amount: map['amount'] != null ? map['amount'] as double : null,
+      amount: map['amount'] != null ? map['amount'] as String : null,
       key: map['key'] != null ? map['key'] as String : null,
-      timeEnd: map['timeEnd'] != null ? map['timeEnd'] as DateTime : null,
-      timeStart: map['timeStart'] != null ? map['timeStart'] as DateTime : null,
+      timeEnd: map['timeEnd'] != null ? map['timeEnd'] as String : null,
+      timeStart: map['timeStart'] != null ? map['timeStart'] as String : null,
     );
   }
 
