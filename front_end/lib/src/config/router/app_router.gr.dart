@@ -29,17 +29,37 @@ class _$AppRouter extends RootStackRouter {
         child: const AlertView(),
       );
     },
+    LoginViewRoute.name: (routeData) {
+      return AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const LoginView(),
+      );
+    },
+    SignUpViewRoute.name: (routeData) {
+      return AdaptivePage<dynamic>(
+        routeData: routeData,
+        child: const SignUpView(),
+      );
+    },
   };
 
   @override
   List<RouteConfig> get routes => [
         RouteConfig(
           AWSBillingDashboardViewRoute.name,
-          path: '/',
+          path: '/a-ws-billing-dashboard-view',
         ),
         RouteConfig(
           AlertViewRoute.name,
           path: '/alert-view',
+        ),
+        RouteConfig(
+          LoginViewRoute.name,
+          path: '/',
+        ),
+        RouteConfig(
+          SignUpViewRoute.name,
+          path: '/sign-up-view',
         ),
       ];
 }
@@ -50,7 +70,7 @@ class AWSBillingDashboardViewRoute extends PageRouteInfo<void> {
   const AWSBillingDashboardViewRoute()
       : super(
           AWSBillingDashboardViewRoute.name,
-          path: '/',
+          path: '/a-ws-billing-dashboard-view',
         );
 
   static const String name = 'AWSBillingDashboardViewRoute';
@@ -66,4 +86,28 @@ class AlertViewRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'AlertViewRoute';
+}
+
+/// generated route for
+/// [LoginView]
+class LoginViewRoute extends PageRouteInfo<void> {
+  const LoginViewRoute()
+      : super(
+          LoginViewRoute.name,
+          path: '/',
+        );
+
+  static const String name = 'LoginViewRoute';
+}
+
+/// generated route for
+/// [SignUpView]
+class SignUpViewRoute extends PageRouteInfo<void> {
+  const SignUpViewRoute()
+      : super(
+          SignUpViewRoute.name,
+          path: '/sign-up-view',
+        );
+
+  static const String name = 'SignUpViewRoute';
 }
