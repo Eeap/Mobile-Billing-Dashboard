@@ -3,20 +3,16 @@ package amazon
 import (
 	"context"
 	"log"
+	"main/pkg/configs"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
-	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/service/costexplorer"
 	"github.com/aws/aws-sdk-go-v2/service/costexplorer/types"
 )
 
-func GetCostUsage(region string, day int) []types.ResultByTime {
-	cfg, err := config.LoadDefaultConfig(context.TODO())
-	if err != nil {
-		log.Fatal(err)
-	}
-	svc := costexplorer.NewFromConfig(cfg)
+func GetCostUsage(region string, day int, iamKey []string) []types.ResultByTime {
+	svc := configs.GetCostExplorerClient(iamKey)
 	resp, err := svc.GetCostAndUsage(context.TODO(), &costexplorer.GetCostAndUsageInput{
 		Filter:      getFilter(region),
 		Granularity: "DAILY",
