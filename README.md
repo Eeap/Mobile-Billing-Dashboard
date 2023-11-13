@@ -202,6 +202,71 @@ curl -i -H 'Accept: application/json' http://localhost:8000/api/v1/alert-setting
 }
 ```
 
+### ❗️Post `/api/v1/login`
+#### Request
+- Description - login 요청
+```bash
+curl -i -H 'Accept: application/json' http://localhost:8000/api/v1/login
+
+{
+    email: "test@gmail.com",
+    password: "test1234!!",
+}
+```
+#### Response
+- Description - login 성공 메시지
+```json
+{
+  "statusCode": 200,
+  "data": {
+    "message": "login success"
+  }
+}
+```
+
+### ❗️Post `/api/v1/sign-up`
+#### Request
+- Description - sign up 요청
+```bash
+curl -i -H 'Accept: application/json' http://localhost:8000/api/v1/sign-up
+
+{
+    email: "test@gmail.com",
+    password: "test1234!!",
+}
+```
+#### Response
+- Description - sign up 성공 메시지
+```json
+{
+  "statusCode": 200,
+  "data": {
+    "message": "sign up success"
+  }
+}
+```
+
+### ❗️Post `/api/v1/logout`
+#### Request
+- Description - logout 요청
+```bash
+curl -i -H 'Accept: application/json' http://localhost:8000/api/v1/logout
+
+{
+    email: "test@gmail.com",
+}
+```
+#### Response
+- Description - logout 성공 메시지
+```json
+{
+  "statusCode": 200,
+  "data": {
+    "message": "logout success"
+  }
+}
+```
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
