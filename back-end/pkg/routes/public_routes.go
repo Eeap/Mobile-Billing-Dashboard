@@ -14,4 +14,5 @@ func PublicRoutes(a *fiber.App) {
 	route.Get("/aws-resource", controllers.GetResourcesCost)
 	route.Get("/alert-messages", controllers.GetAlertMessages)
 	route.Post("/user-key", controllers.UserKeySet)
+	route.Post("/sign-up", controllers.UserSignUp)
 }

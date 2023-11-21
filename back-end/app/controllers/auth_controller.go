@@ -66,3 +66,25 @@ func UserKeySet(c *fiber.Ctx) error {
 		"message": msg,
 	})
 }
+
+// @Router /v1/sign-up [post]
+func UserSignUp(c *fiber.Ctx) error {
+	signIn := &models.SignIn{}
+	if err := c.BodyParser(signIn); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error":   true,
+			"message": err,
+		})
+	}
+	msg, err := services.PutItem(signIn)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error":   true,
+			"message": err,
+		})
+	}
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"error":    false,
+		"messages": msg,
+	})
+}
