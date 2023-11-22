@@ -3,6 +3,7 @@ package configs
 import (
 	"context"
 	"github.com/aws/aws-sdk-go-v2/service/costexplorer"
+	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"os"
 
 	"github.com/aws/aws-sdk-go-v2/config"
@@ -45,4 +46,15 @@ func GetCostExplorerClient(iamKey []string) *costexplorer.Client {
 		return nil
 	}
 	return costexplorer.NewFromConfig(cfg)
+}
+
+func GetDynamoDBClient() *dynamodb.Client {
+	cfg, err := config.LoadDefaultConfig(context.TODO(),
+		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(GetAWSConfig().AccessKey, GetAWSConfig().SecretKey, "")),
+		config.WithRegion(GetAWSConfig().Region),
+	)
+	if err != nil {
+		return nil
+	}
+	return dynamodb.NewFromConfig(cfg)
 }

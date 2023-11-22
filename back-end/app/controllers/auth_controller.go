@@ -7,9 +7,32 @@ import (
 )
 
 // UserSignIn method to auth user and return access and refresh tokens.
-// @Router /v1/login/new [post]
+// @Router /v1/login [post]
 func UserSignIn(c *fiber.Ctx) error {
-	return c.Status(fiber.StatusOK).JSON(fiber.Map{})
+	signIn := &models.SignIn{}
+	if err := c.BodyParser(signIn); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error":   true,
+			"message": err,
+		})
+	}
+	msg, err := services.GetItem(signIn)
+	if msg == "password" {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error":   true,
+			"message": err.Error(),
+		})
+	}
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error":   true,
+			"message": err.Error(),
+		})
+	}
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"error":    false,
+		"messages": "user login success",
+	})
 }
 
 // UserSignOut method to de-authorize user and delete refresh token from Redis.
@@ -41,5 +64,27 @@ func UserKeySet(c *fiber.Ctx) error {
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"error":   false,
 		"message": msg,
+	})
+}
+
+// @Router /v1/sign-up [post]
+func UserSignUp(c *fiber.Ctx) error {
+	signIn := &models.SignIn{}
+	if err := c.BodyParser(signIn); err != nil {
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error":   true,
+			"message": err,
+		})
+	}
+	msg, err := services.PutItem(signIn)
+	if err != nil {
+		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error":   true,
+			"message": err,
+		})
+	}
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
+		"error":    false,
+		"messages": msg,
 	})
 }
