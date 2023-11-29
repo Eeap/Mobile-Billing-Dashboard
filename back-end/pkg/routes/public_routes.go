@@ -15,4 +15,5 @@ func PublicRoutes(a *fiber.App) {
 	route.Get("/alert-messages", controllers.GetAlertMessages)
 	route.Post("/user-key", controllers.UserKeySet)
 	route.Post("/sign-up", controllers.UserSignUp)
+	route.Post("/alert-setting", controllers.AlertSetting)
 }
