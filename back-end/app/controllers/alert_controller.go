@@ -9,12 +9,6 @@ import (
 // @Router /v1/alert-messages [get]
 func GetAlertMessages(c *fiber.Ctx) error {
 	email := c.Query("email")
-	if err := c.QueryParser(email); err != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": true,
-			"msg":   err,
-		})
-	}
 	//resData := []models.AlertMessage{
 	//	{
 	//		Time:    "2023-11-08 20:55:00",

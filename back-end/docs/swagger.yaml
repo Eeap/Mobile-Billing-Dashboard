@@ -11,25 +11,25 @@ info:
   title: API
   version: "1.0"
 paths:
-  /v1/s3/download:
+  /v1/alert-messages:
     get:
       responses: {}
-  /v1/s3/upload:
+  /v1/alert-setting:
     post:
       responses: {}
-  /v1/terraform/apply:
+  /v1/aws-resource:
+    get:
+      responses: {}
+  /v1/login:
     post:
       responses: {}
-  /v1/terraform/merge:
+  /v1/logout:
     post:
       responses: {}
-  /v1/user/key:
+  /v1/sign-up:
     post:
       responses: {}
-  /v1/user/sign/in:
-    post:
-      responses: {}
-  /v1/user/sign/out:
+  /v1/user-key:
     post:
       responses: {}
 securityDefinitions:

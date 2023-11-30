@@ -26,3 +26,12 @@ func GetItem(user *models.SignIn) (string, error) {
 	}
 	return "password", errors.New("password is wrong")
 }
+
+func UpdateItem(alertSettings *models.AlertSetting) (string, error) {
+	err := amazon.UpdateItem(alertSettings)
+	if err != nil {
+		return "", err
+	}
+	return "alert setting update Success", nil
+
+}
