@@ -21,8 +21,8 @@ func S3UploadKey(keyIn *models.UserKey) (string, error) {
 	return msg, nil
 }
 
-func S3GetKey(keyIn *models.UserKey) ([]string, error) {
-	key, err := amazon.S3GetObject(keyIn.Email + ".csv")
+func S3GetKey(email string) ([]string, error) {
+	key, err := amazon.S3GetObject(email + ".csv")
 	if err != nil {
 		return nil, err
 	}
