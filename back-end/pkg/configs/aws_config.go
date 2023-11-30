@@ -5,6 +5,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/service/costexplorer"
 	"github.com/aws/aws-sdk-go-v2/service/dynamodb"
 	"os"
+	"strings"
 
 	"github.com/aws/aws-sdk-go-v2/config"
 	"github.com/aws/aws-sdk-go-v2/credentials"
@@ -39,7 +40,7 @@ func GetS3Client() *s3.Client {
 
 func GetCostExplorerClient(iamKey []string) *costexplorer.Client {
 	cfg, err := config.LoadDefaultConfig(context.TODO(),
-		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(iamKey[0], iamKey[1], "")),
+		config.WithCredentialsProvider(credentials.NewStaticCredentialsProvider(strings.ReplaceAll(iamKey[0], "\n", ""), strings.ReplaceAll(iamKey[1], "\n", ""), "")),
 		config.WithRegion(GetAWSConfig().Region),
 	)
 	if err != nil {
