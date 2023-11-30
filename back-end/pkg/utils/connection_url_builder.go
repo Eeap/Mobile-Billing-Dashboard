@@ -19,6 +19,13 @@ func ConnectionURLBuilder(n string) (string, error) {
 			os.Getenv("SERVER_HOST"),
 			os.Getenv("SERVER_PORT"),
 		)
+	case "redis":
+		// URL for Redis connection.
+		url = fmt.Sprintf(
+			"%s:%s",
+			os.Getenv("REDIS_HOST"),
+			os.Getenv("REDIS_PORT"),
+		)
 	default:
 		// Return error message.
 		return "", fmt.Errorf("connection name '%v' is not supported", n)
