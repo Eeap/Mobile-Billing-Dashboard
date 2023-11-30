@@ -52,15 +52,28 @@ func makeCostResource(costData []types.ResultByTime) ([]models.CostResource, err
 }
 
 func compareCostWithTarget(costData []models.CostResource, email string) error {
-	// email 토대로 캐쉬에 데이터를 불러오는 로직 필요
+	// email 토대로 dynamoDB에 데이터를 불러오는 로직 필요
 	item, err := amazon.GetItem(&models.SignIn{Email: email})
 	if err != nil {
 		log.Println(err)
 		return err
 	}
+	value, err := strconv.ParseFloat(item["targetCost"].(*dynamoType.AttributeValueMemberN).Value, 64)
+	if err != nil {
+		log.Println(err)
+		return err
+	} else if value == 0 {
+		return nil
+	}
+	timeNow := time.Now().Format("2006-01-02 15:04:05")
+	timeEnd := item["timeEnd"].(*dynamoType.AttributeValueMemberS).Value
+	if timeNow > timeEnd {
+		return nil
+	}
 	total := 0.0
 	for _, val := range costData {
-		if val.Amount < "0" {
+		// 10원 미만 가격은 무시
+		if val.Amount < "0.01" {
 			continue
 		}
 		amount, err := strconv.ParseFloat(val.Amount, 64)
@@ -68,11 +81,6 @@ func compareCostWithTarget(costData []models.CostResource, email string) error {
 			return err
 		}
 		total += amount
-	}
-	value, err := strconv.ParseFloat(item["targetCost"].(*dynamoType.AttributeValueMemberN).Value, 64)
-	if err != nil {
-		log.Println(err)
-		return err
 	}
 	// 목표비용과 비교하는 로직 필요
 	percent := math.Round(total / value * 100)

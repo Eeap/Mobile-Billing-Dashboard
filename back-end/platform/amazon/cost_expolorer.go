@@ -26,7 +26,8 @@ func GetCostUsage(region string, day int, iamKey []string) []types.ResultByTime 
 		},
 	})
 	if err != nil {
-		log.Fatal(err)
+		log.Println(err)
+		return nil
 	}
 	return resp.ResultsByTime
 }
