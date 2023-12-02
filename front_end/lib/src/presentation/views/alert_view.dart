@@ -4,9 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ionicons/ionicons.dart';
 
-import '../../config/router/app_router.dart';
 import '../../domain/models/alert_message.dart';
-import '../../utils/extensions/scroll_controller_extensions.dart';
 import '../cubits/alert/alert_cubit.dart';
 import '../widgets/alert_message_widget.dart';
 import '../widgets/alert_settings_widget.dart';
@@ -16,17 +14,8 @@ class AlertView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(context);
     final alertCubit = BlocProvider.of<AlertCubit>(context);
     final scrollController = useScrollController();
-
-    useEffect(() {
-      scrollController.onScrollEndsListener(() {
-        alertCubit.getAlertMessages();
-      });
-
-      return scrollController.dispose;
-    }, const []);
 
     return Container(
       decoration: BoxDecoration(
