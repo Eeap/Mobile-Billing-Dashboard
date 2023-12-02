@@ -1,27 +1,42 @@
-# name: go Test check
+name: billing dasboard test
 
-# on:
-#   pull_request:
-#     branches:
-#       - dev
+on:
+ pull_request:
+   branches:
+     - dev
 
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-#     strategy:
-#       matrix:
-#         go-version: [ '1.19' ]
-#     steps:
-#       - uses: actions/checkout@v4
-#       - name: Setup Golang with cache
-#         uses: magnetikonline/action-golang-cache@v4
-#         with:
-#           go-version-file: ./back-end/go.mod
-      # - name: Test with Go
-      #   run: |
-      #     go test -v -timeout 30s -coverprofile=cover.out -cover ./...
-      #     go tool cover -func=cover.out
-      # 추후 main 병합시 test 할 부분
+jobs:
+ build:
+   runs-on: ubuntu-latest
+   strategy:
+     matrix:
+       go-version: [ '1.19' ]
+   steps:
+     - uses: actions/checkout@v4
+     - name: Setup Golang with cache
+       uses: magnetikonline/action-golang-cache@v4
+       with:
+         go-version-file: ./back-end/go.mod
+     - name: Test with Go
+       run: |
+         go test -v -timeout 30s -coverprofile=cover.out -cover ./back-end/...
+         go tool cover -func=cover.out
+     - name: golangci-lint
+       uses: golangci/golangci-lint-action@v3
+       with:
+         version: v1.53
+     - name: flutter analyze
+       uses: subosito/flutter-action@v2
+       with:
+         flutter-version: '3.13.4'
+         channel: 'stable'
+         working-directory: ./front-end
+     - name: flutter pub get
+       run: flutter pub get
+     - name: flutter test
+       run: flutter test
+
+#       추후 main 병합시 test 할 부분
 #      - name: Run Gosec Security Scanner
 #        uses: securego/gosec@master
 #        with:
@@ -30,7 +45,3 @@
 #        run: |
 #          go install -v github.com/go-critic/go-critic/cmd/gocritic@latest
 #          gocritic check -enableAll ./...
-#      - name: golangci-lint
-#        uses: golangci/golangci-lint-action@v3
-#        with:
-#          version: v1.53
