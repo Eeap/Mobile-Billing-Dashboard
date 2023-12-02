@@ -16,7 +16,7 @@ jobs:
      - name: Setup Golang with cache
        uses: magnetikonline/action-golang-cache@v4
        with:
-         go-version-file: ./Mobile-Billing-Dashboard/back-end/go.mod
+         go-version-file: ~/back-end/go.mod
      - name: Test with Go
        run: |
          go test -v -timeout 30s -coverprofile=cover.out -cover ./back-end/...
