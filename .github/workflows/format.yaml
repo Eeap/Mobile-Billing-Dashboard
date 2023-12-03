@@ -20,13 +20,3 @@ jobs:
        run: flutter pub get
      - name: flutter test
        run: flutter test
-
-#       추후 main 병합시 test 할 부분
-#      - name: Run Gosec Security Scanner
-#        uses: securego/gosec@master
-#        with:
-#          args: ./...
-#      - name: Check critic
-#        run: |
-#          go install -v github.com/go-critic/go-critic/cmd/gocritic@latest
-#          gocritic check -enableAll ./...
