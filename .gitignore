@@ -10,7 +10,7 @@
 .svn/
 migrate_working_dir/
 .idea/
-assets/*
+assets/images/*
 
 # IntelliJ related
 *.iml
