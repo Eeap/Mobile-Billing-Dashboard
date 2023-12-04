@@ -59,7 +59,6 @@ class LocationWidget extends HookWidget {
                 itemExtent: _regions.length.toDouble(),
                 onSelectedItemChanged: (int index) {
                   _selectedRegionIndex = index;
-                  print(_selectedRegionIndex);
                 },
                 children: _regions.map<Text>((String region) {
                   return Text(region);
