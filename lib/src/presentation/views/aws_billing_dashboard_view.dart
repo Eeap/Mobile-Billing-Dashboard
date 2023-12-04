@@ -10,7 +10,7 @@ import '../../domain/models/resource.dart';
 import '../../utils/extensions/scroll_controller_extensions.dart';
 import '../cubits/login/login_cubit.dart';
 import '../cubits/remote_resources/remote_resources_cubit.dart';
-import '../widgets/location_wiget.dart';
+import '../widgets/location_widget.dart';
 import '../widgets/logout_widget.dart';
 import '../widgets/resource_average_widget.dart';
 import '../widgets/resource_chart_widget.dart';
