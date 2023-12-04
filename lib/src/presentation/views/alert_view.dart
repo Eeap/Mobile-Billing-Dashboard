@@ -7,6 +7,7 @@ import '../../config/router/app_router.dart';
 import '../../domain/models/alert_message.dart';
 import '../cubits/alert/alert_cubit.dart';
 import '../widgets/alert_message_widget.dart';
+import '../widgets/alert_settings_widget.dart';
 import '../widgets/logout_widget.dart';
 import '../widgets/user_key_widget.dart';
 
@@ -77,7 +78,7 @@ class AlertView extends HookWidget {
               ),
               onTap: () {
                 showDialog(
-                  builder: (context) => LogoutWidget(),
+                  builder: (context) => AlertSettingsWidget(),
                   context: context,
                 );
               },
