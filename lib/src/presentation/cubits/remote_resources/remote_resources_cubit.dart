@@ -36,4 +36,8 @@ class RemoteResourcesCubit
       }
     });
   }
+
+  void setInitial() {
+    emit(const RemoteResourcesLoading());
+  }
 }
