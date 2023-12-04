@@ -31,3 +31,7 @@ class ProfileSuccess extends ProfileState {
 class ProfileFailed extends ProfileState {
   const ProfileFailed({super.error});
 }
+
+class ProfileInitial extends ProfileState {
+  const ProfileInitial();
+}

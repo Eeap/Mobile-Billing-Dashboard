@@ -16,12 +16,12 @@ class RemoteResourcesCubit
   RemoteResourcesCubit(this._apiRepository)
       : super(const RemoteResourcesLoading(), []);
 
-  Future<void> getAwsResources() async {
+  Future<void> getAwsResources(AwsResourceRequest awsResourceRequest) async {
     if (isBusy) return;
 
     await run(() async {
       final response = await _apiRepository.getAwsResources(
-        request: AwsResourceRequest(),
+        request: awsResourceRequest,
       );
 
       if (response is DataSuccess) {

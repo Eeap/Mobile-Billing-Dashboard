@@ -1,4 +1,3 @@
-import '../../../utils/constants/nums.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../../../utils/constants/strings.dart';
 

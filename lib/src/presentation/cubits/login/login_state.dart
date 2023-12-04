@@ -4,10 +4,12 @@ sealed class LoginState extends Equatable {
   final String message;
   final bool noData;
   final DioError? error;
-  const LoginState({
+  String email;
+  LoginState({
     this.message = "",
     this.noData = true,
     this.error,
+    this.email = "",
   });
 
   @override
@@ -19,17 +21,17 @@ sealed class LoginState extends Equatable {
 }
 
 class LoginLoading extends LoginState {
-  const LoginLoading();
+  LoginLoading();
 }
 
 class LoginSuccess extends LoginState {
-  const LoginSuccess({super.message, super.noData});
+  LoginSuccess({super.message, super.noData});
 }
 
 class LoginFailed extends LoginState {
-  const LoginFailed({super.error});
+  LoginFailed({super.error});
 }
 
 class LoginInitial extends LoginState {
-  const LoginInitial();
+  LoginInitial();
 }

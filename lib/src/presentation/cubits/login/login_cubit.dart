@@ -11,7 +11,7 @@ part 'login_state.dart';
 class LoginCubit extends BaseCubit<LoginState, String> {
   final ApiRepository _apiRepository;
   LoginCubit(this._apiRepository) : super(LoginInitial(), "");
-
+  late final email;
   Future<void> login(LoginRequest request) async {
     if (isBusy) return;
 
@@ -19,7 +19,7 @@ class LoginCubit extends BaseCubit<LoginState, String> {
       final response = await _apiRepository.login(
         request: request,
       );
-
+      state.email = request.email;
       if (response is DataSuccess) {
         final message = response.data!.message;
         final noData = false;

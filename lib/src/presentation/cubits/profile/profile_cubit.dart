@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import '../../../domain/models/requests/logout_request.dart';
 import '../../../domain/models/requests/user_key_request.dart';
 import '../../../utils/constants/strings.dart';
 import '../base/base_cubit.dart';
@@ -12,7 +11,7 @@ part 'profile_state.dart';
 
 class ProfileCubit extends BaseCubit<ProfileState, String> {
   final ApiRepository _apiRepository;
-  ProfileCubit(this._apiRepository) : super(const ProfileLoading(), "");
+  ProfileCubit(this._apiRepository) : super(const ProfileInitial(), "");
 
   Future<void> setProfileKey(UserKeyRequest userKeyRequest) async {
     if (isBusy) return;
@@ -34,6 +33,6 @@ class ProfileCubit extends BaseCubit<ProfileState, String> {
   }
 
   void setInitial() {
-    emit(const ProfileLoading());
+    emit(const ProfileInitial());
   }
 }

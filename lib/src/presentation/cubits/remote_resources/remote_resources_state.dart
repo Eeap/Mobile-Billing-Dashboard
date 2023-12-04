@@ -26,3 +26,7 @@ class RemoteResourcesSuccess extends RemoteResourcesState {
 class RemoteResourcesFailed extends RemoteResourcesState {
   const RemoteResourcesFailed({super.error});
 }
+
+class RemoteResourcesInitial extends RemoteResourcesState {
+  const RemoteResourcesInitial();
+}
