@@ -84,11 +84,11 @@ class AlertSettingsWidget extends HookWidget {
 
   void _onDateChanged(DateTime value) {
     timeEnd = DateTime.parse(
-        "${value.year}-${value.month}-${value.day} ${timeEnd.hour}:${timeEnd.minute}:${timeEnd.second}");
+        "${value.year}-${value.month.toString().padLeft(2, '0')}-${value.day.toString().padLeft(2, '0')} ${timeEnd.hour.toString().padLeft(2, '0')}:${timeEnd.minute.toString().padLeft(2, '0')}:00");
   }
 
   void _onTimeChanged(DateTime value) {
     timeEnd = DateTime.parse(
-        "${timeEnd.year}-${timeEnd.month}-${timeEnd.day} ${value.hour}:${value.minute}:00");
+        "${timeEnd.year}-${timeEnd.month.toString().padLeft(2, '0')}-${timeEnd.day.toString().padLeft(2, '0')} ${value.hour.toString().padLeft(2, '0')}:${value.minute.toString().padLeft(2, '0')}:00");
   }
 }

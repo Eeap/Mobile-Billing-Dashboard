@@ -105,6 +105,22 @@ class AlertView extends HookWidget {
         body: BlocBuilder<AlertCubit, AlertState>(
           builder: (_, state) {
             switch (state.runtimeType) {
+              case AlertSettingSuccess:
+                return CupertinoAlertDialog(
+                  content: const Text("알림 설정을 완료했습니다."),
+                  actions: <Widget>[
+                    CupertinoDialogAction(
+                      child: Text("OK"),
+                      onPressed: () {
+                        context.read<AlertCubit>().getAlertMessages(
+                              AlertRequest(
+                                email: context.read<LoginCubit>().state.email,
+                              ),
+                            );
+                      },
+                    ),
+                  ],
+                );
               case AlertLoading:
                 return const Center(child: CupertinoActivityIndicator());
               case AlertFailed:
