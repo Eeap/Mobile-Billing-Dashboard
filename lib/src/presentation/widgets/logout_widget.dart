@@ -74,6 +74,7 @@ class LogoutWidget extends HookWidget {
           onPressed: () {
             context.read<LogoutCubit>().logout(
                 LogoutRequest(email: context.read<LoginCubit>().state.email));
+            context.read<LoginCubit>().setInitial();
           },
         ),
         CupertinoDialogAction(
