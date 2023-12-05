@@ -72,7 +72,7 @@
 
 ### :card_file_box: Built With
 #### :bulb: Language
-[![Go][Go]][Go-url] [![Dart][Dart]][Dart-url] [![Flutter][Flutter]][Flutter-url]
+[![Dart][Dart]][Dart-url] [![Flutter][Flutter]][Flutter-url]
 #### :bulb: Infrastructure
 [![aws][aws]][aws-url]
 #### :bulb: Environment (CI/CD, Package tools...)
@@ -86,11 +86,6 @@
 ## :rocket: Getting Started
 
 ### :zap: Prerequisites
-Download and install packages and associated dependencies via `go get`
-* go
-  ```sh
-  go get .
-  ```
 
 Download and install packages and associated dependencies via `flutter pub get`
 * dart flutter
@@ -331,8 +326,6 @@ Please refer to `LICENSE.txt` for LICENSE.
 [license-shield]: https://img.shields.io/github/license/Eeap/Mobile-Billing-Dashboard.svg?style=flat
 [license-url]: https://github.com/Eeap/Mobile-Billing-Dashboard/blob/master/LICENSE.txt
 
-[Go]: https://img.shields.io/badge/Go-00ADD8?style=flat&logo=Go&logoColor=white
-[Go-url]: https://go.dev/
 [aws]: https://img.shields.io/badge/AmazonAWS-232F3E?style=flat&logo=AmazonAWS&logoColor=white
 [aws-url]: https://aws.amazon.com/
 [Github-actions]: https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat&logo=github-actions&logoColor=white
