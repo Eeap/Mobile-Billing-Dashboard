@@ -14,21 +14,19 @@ class AlertCubit extends BaseCubit<AlertState, List<AlertMessage>> {
 
   AlertCubit(this._apiRepository) : super(const AlertLoading(), []);
 
-  Future<void> getAlertMessages() async {
+  Future<void> getAlertMessages(AlertRequest alertRequest) async {
     if (isBusy) return;
 
     await run(() async {
       final response = await _apiRepository.getAlertMessages(
-        request: AlertRequest(),
+        request: alertRequest,
       );
 
       if (response is DataSuccess) {
         final messages = response.data!.messages;
         final noMoreData = false;
 
-        data.addAll(messages);
-
-        emit(AlertSuccess(messages: data, noMoreData: noMoreData));
+        emit(AlertSuccess(messages: messages, noMoreData: noMoreData));
       } else if (response is DataFailed) {
         emit(AlertFailed(error: response.error));
       }

@@ -28,9 +28,8 @@ class RemoteResourcesCubit
         final resources = response.data!.resources;
         final noMoreData = false;
 
-        data.addAll(resources);
-
-        emit(RemoteResourcesSuccess(resources: data, noMoreData: noMoreData));
+        emit(RemoteResourcesSuccess(
+            resources: resources, noMoreData: noMoreData));
       } else if (response is DataFailed) {
         emit(RemoteResourcesFailed(error: response.error));
       }
