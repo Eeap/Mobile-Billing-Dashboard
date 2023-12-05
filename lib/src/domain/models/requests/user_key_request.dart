@@ -1,4 +1,3 @@
-import '../../../utils/constants/nums.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../../../utils/constants/strings.dart';
 
@@ -13,9 +12,6 @@ class UserKeyRequest {
     this.accessKey = "",
     this.secretKey = "",
   });
-  Map<String, dynamic> toJson() => {
-        'accessKey': accessKey,
-        'secretKey': secretKey,
-        'email':email
-      };
+  Map<String, dynamic> toJson() =>
+      {'accessKey': accessKey, 'secretKey': secretKey, 'email': email};
 }

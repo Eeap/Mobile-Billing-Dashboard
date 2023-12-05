@@ -2,13 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:fron_end/src/domain/repositories/api_repository.dart';
+import 'package:fron_end/src/locator.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../config/router/app_router.dart';
+import '../../domain/models/requests/aws_resources_request.dart';
 import '../../domain/models/resource.dart';
 import '../../utils/extensions/scroll_controller_extensions.dart';
-import '../cubits/profile/profile_cubit.dart';
+import '../cubits/login/login_cubit.dart';
 import '../cubits/remote_resources/remote_resources_cubit.dart';
+import '../widgets/location_widget.dart';
+import '../widgets/logout_widget.dart';
 import '../widgets/resource_average_widget.dart';
 import '../widgets/resource_chart_widget.dart';
 import '../widgets/user_key_widget.dart';
@@ -18,17 +23,18 @@ class AWSBillingDashboardView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final remoteResourcesCubit = BlocProvider.of<RemoteResourcesCubit>(context);
-    final profileCubit = BlocProvider.of<ProfileCubit>(context);
     final scrollController = useScrollController();
 
-    // useEffect(() {
-    //   scrollController.onScrollEndsListener(() {
-    //     remoteResourcesCubit.getAwsResources();
-    //   });
+    useEffect(() {
+      scrollController.onScrollEndsListener(() {
+        context.read<RemoteResourcesCubit>().getAwsResources(AwsResourceRequest(
+              email: context.read<LoginCubit>().state.email,
+              region: context.read<RemoteResourcesCubit>().state.region,
+            ));
+      });
 
-    //   return scrollController.dispose;
-    // }, const []);
+      return scrollController.dispose;
+    }, const []);
 
     return Container(
       decoration: BoxDecoration(
@@ -40,18 +46,59 @@ class AWSBillingDashboardView extends HookWidget {
         ),
       ),
       child: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.transparent,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Ionicons.bar_chart_outline),
+              label: 'Chart',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Ionicons.notifications_outline),
+              label: 'Alert',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Ionicons.key_outline),
+              label: 'Settings',
+            ),
+          ],
+          currentIndex: 0,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white.withOpacity(0.6),
+          onTap: (index) {
+            switch (index) {
+              case 0:
+                appRouter.push(
+                  const AWSBillingDashboardViewRoute(),
+                );
+                break;
+              case 1:
+                appRouter.push(
+                  const AlertViewRoute(),
+                );
+                break;
+              case 2:
+                showDialog(
+                  builder: (context) => UserKeyWidget(),
+                  context: context,
+                );
+                break;
+            }
+          },
+        ),
         appBar: AppBar(
           automaticallyImplyLeading: false,
           actions: [
             GestureDetector(
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 14),
-                child: Icon(Ionicons.notifications_outline,
-                    color: Colors.orangeAccent),
+                child:
+                    Icon(Ionicons.location_outline, color: Colors.orangeAccent),
               ),
               onTap: () {
-                appRouter.push(
-                  const AlertViewRoute(),
+                showDialog(
+                  builder: (context) => LocationWidget(),
+                  context: context,
                 );
               },
             ),
@@ -64,9 +111,7 @@ class AWSBillingDashboardView extends HookWidget {
               ),
               onTap: () {
                 showDialog(
-                  builder: (context) => UserKeyWidget(
-                    profileCubit: profileCubit,
-                  ),
+                  builder: (context) => LogoutWidget(),
                   context: context,
                 );
               },
@@ -76,14 +121,30 @@ class AWSBillingDashboardView extends HookWidget {
         ),
         backgroundColor: Colors.transparent,
         body: BlocBuilder<RemoteResourcesCubit, RemoteResourcesState>(
+          buildWhen: (previous, current) => previous != current,
           builder: (_, state) {
             switch (state.runtimeType) {
               case RemoteResourcesLoading:
                 return const Center(child: CupertinoActivityIndicator());
               case RemoteResourcesFailed:
-                return const Center(child: Icon(Ionicons.refresh));
+                return Center(
+                  child: GestureDetector(
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 14),
+                      child: Icon(Ionicons.refresh, color: Colors.orangeAccent),
+                    ),
+                    onTap: () {
+                      BlocProvider.of<RemoteResourcesCubit>(context)
+                          .getAwsResources(AwsResourceRequest(
+                        email: context.read<LoginCubit>().state.email,
+                        region:
+                            context.read<RemoteResourcesCubit>().state.region,
+                      ));
+                    },
+                  ),
+                );
               case RemoteResourcesSuccess:
-                return _buildArticles(
+                return _buildCosts(
                   scrollController,
                   state.resources,
                   state.noMoreData,
@@ -97,7 +158,7 @@ class AWSBillingDashboardView extends HookWidget {
     );
   }
 
-  Widget _buildArticles(
+  Widget _buildCosts(
     ScrollController scrollController,
     List<Resource> resources,
     bool noMoreData,
@@ -130,6 +191,9 @@ class AWSBillingDashboardView extends HookWidget {
               shrinkWrap: true,
               controller: scrollController,
               slivers: [
+                SliverToBoxAdapter(
+                  child: ResourceAverageWidget(resources: resources),
+                ),
                 SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (context, index) => ResourceChartWidget(
@@ -137,9 +201,6 @@ class AWSBillingDashboardView extends HookWidget {
                         dayData: makeDayData(mapResources[index])),
                     childCount: mapResources.length,
                   ),
-                ),
-                SliverToBoxAdapter(
-                  child: ResourceAverageWidget(resources: resources),
                 ),
               ],
             ),

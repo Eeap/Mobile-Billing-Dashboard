@@ -4,7 +4,6 @@ import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
 
 import '../../../domain/models/requests/alert_setting_request.dart';
-import '../../../domain/models/requests/aws_resources_request.dart';
 import '../../../domain/models/requests/login_request.dart';
 import '../../../domain/models/requests/logout_request.dart';
 import '../../../domain/models/requests/sign_up_request.dart';

@@ -3,18 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ionicons/ionicons.dart';
-
+import '../../config/router/app_router.dart';
 import '../../domain/models/alert_message.dart';
 import '../cubits/alert/alert_cubit.dart';
 import '../widgets/alert_message_widget.dart';
 import '../widgets/alert_settings_widget.dart';
+import '../widgets/logout_widget.dart';
+import '../widgets/user_key_widget.dart';
 
 class AlertView extends HookWidget {
   const AlertView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final alertCubit = BlocProvider.of<AlertCubit>(context);
     final scrollController = useScrollController();
 
     return Container(
@@ -27,6 +28,46 @@ class AlertView extends HookWidget {
         ),
       ),
       child: Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          backgroundColor: Colors.transparent,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Ionicons.bar_chart_outline),
+              label: 'Chart',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Ionicons.notifications_outline),
+              label: 'Alert',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Ionicons.key_outline),
+              label: 'Settings',
+            ),
+          ],
+          currentIndex: 1,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white.withOpacity(0.6),
+          onTap: (index) {
+            switch (index) {
+              case 0:
+                appRouter.push(
+                  const AWSBillingDashboardViewRoute(),
+                );
+                break;
+              case 1:
+                appRouter.push(
+                  const AlertViewRoute(),
+                );
+                break;
+              case 2:
+                showDialog(
+                  builder: (context) => UserKeyWidget(),
+                  context: context,
+                );
+                break;
+            }
+          },
+        ),
         appBar: AppBar(
           actions: [
             const Spacer(),
@@ -35,13 +76,11 @@ class AlertView extends HookWidget {
                 padding: EdgeInsets.symmetric(horizontal: 14),
                 child: Icon(Ionicons.settings_outline, color: Colors.orange),
               ),
-              onTap: () => {
+              onTap: () {
                 showDialog(
-                  builder: (context) => AlertSettingsWidget(
-                    alertCubit: alertCubit,
-                  ),
+                  builder: (context) => AlertSettingsWidget(),
                   context: context,
-                )
+                );
               },
             ),
           ],

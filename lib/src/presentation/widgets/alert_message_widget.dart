@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 import '../../domain/models/alert_message.dart';
-import '../../domain/models/resource.dart';
 
 class AlertMessageWidget extends StatelessWidget {
   final AlertMessage message;

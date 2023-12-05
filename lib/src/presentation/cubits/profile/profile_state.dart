@@ -4,17 +4,19 @@ sealed class ProfileState extends Equatable {
   final String message;
   final bool noData;
   final DioError? error;
-  const ProfileState({
-    this.message = "",
-    this.noData = true,
-    this.error,
-  });
+  final String email;
+  const ProfileState(
+      {this.message = "",
+      this.noData = true,
+      this.error,
+      this.email = defaultemail});
 
   @override
   List<Object?> get props => [
         message,
         noData,
         error,
+        email,
       ];
 }
 
@@ -28,4 +30,8 @@ class ProfileSuccess extends ProfileState {
 
 class ProfileFailed extends ProfileState {
   const ProfileFailed({super.error});
+}
+
+class ProfileInitial extends ProfileState {
+  const ProfileInitial();
 }

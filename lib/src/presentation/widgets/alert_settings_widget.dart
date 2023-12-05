@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 import '../../domain/models/requests/alert_setting_request.dart';
 import '../cubits/alert/alert_cubit.dart';
 
-class AlertSettingsWidget extends StatelessWidget {
+class AlertSettingsWidget extends HookWidget {
   final initDate = DateTime.now();
-  final AlertCubit alertCubit;
   AlertSettingsWidget({
-    required this.alertCubit,
     Key? key,
   }) : super(key: key);
   late TextEditingController costController = TextEditingController(text: '');
@@ -60,12 +60,12 @@ class AlertSettingsWidget extends StatelessWidget {
               CupertinoDialogAction(
                 child: Text("OK"),
                 onPressed: () {
-                  alertCubit.setAlert(
-                    AlertSettingRequest(
-                      timeEnd: timeEnd.toString(),
-                      targetCount: int.parse(costController.text),
-                    ),
-                  );
+                  context.read<AlertCubit>().setAlert(
+                        AlertSettingRequest(
+                          timeEnd: timeEnd.toString(),
+                          targetCount: int.parse(costController.text),
+                        ),
+                      );
                   Navigator.of(context).pop();
                 },
               ),
