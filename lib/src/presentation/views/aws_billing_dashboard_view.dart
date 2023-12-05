@@ -7,9 +7,11 @@ import 'package:fron_end/src/locator.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../config/router/app_router.dart';
+import '../../domain/models/requests/alert_request.dart';
 import '../../domain/models/requests/aws_resources_request.dart';
 import '../../domain/models/resource.dart';
 import '../../utils/extensions/scroll_controller_extensions.dart';
+import '../cubits/alert/alert_cubit.dart';
 import '../cubits/login/login_cubit.dart';
 import '../cubits/remote_resources/remote_resources_cubit.dart';
 import '../widgets/location_widget.dart';
@@ -68,11 +70,22 @@ class AWSBillingDashboardView extends HookWidget {
           onTap: (index) {
             switch (index) {
               case 0:
+                context
+                    .read<RemoteResourcesCubit>()
+                    .getAwsResources(AwsResourceRequest(
+                      email: context.read<LoginCubit>().state.email,
+                      region: context.read<RemoteResourcesCubit>().state.region,
+                    ));
                 appRouter.push(
                   const AWSBillingDashboardViewRoute(),
                 );
                 break;
               case 1:
+                context.read<AlertCubit>().getAlertMessages(
+                      AlertRequest(
+                        email: context.read<LoginCubit>().state.email,
+                      ),
+                    );
                 appRouter.push(
                   const AlertViewRoute(),
                 );
