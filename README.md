@@ -54,11 +54,18 @@
 ## :mag: About The Project
 해당 프로젝트는 웹으로 존재하는 AWS Billing Dashboard를 모바일으로도 이용 요금 현황을 파악할 수 있게 만들어진 프로젝트입니다. 리소스 별로 비용 차트를 확인할 수 있고 타겟 비용에 대한 알람을 설정할 수 있습니다.
 
-### Main Page & Key Settings
-![ui1](./images/ui1.png)
+### Login & SignUp Page
+![ui1](./images/login_signUp.png)
 
-### Alert Page & Alert Settings
-![ui2](./images/ui2.png)
+### Key Settings & Logout Widget
+![ui2](./images/key_logout.png)
+
+### Main DashBoard Page ( + Region Selector Widget )
+![ui3](./images/main.png)
+
+### Alert Message Page ( + Alert Settings Widget )
+![ui4](./images/alert.png)
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
