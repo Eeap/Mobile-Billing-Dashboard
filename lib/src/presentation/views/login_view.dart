@@ -4,8 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:form_field_validator/form_field_validator.dart';
 import '../../config/router/app_router.dart';
+import '../../domain/models/requests/aws_resources_request.dart';
 import '../../domain/models/requests/login_request.dart';
 import '../cubits/login/login_cubit.dart';
+import '../cubits/remote_resources/remote_resources_cubit.dart';
 
 class LoginView extends HookWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -41,7 +43,10 @@ class LoginView extends HookWidget {
                       CupertinoDialogAction(
                         child: const Text('OK'),
                         onPressed: () {
-                          context.read<LoginCubit>().setInitial();
+                          context.read<RemoteResourcesCubit>().getAwsResources(
+                              AwsResourceRequest(
+                                  email:
+                                      context.read<LoginCubit>().state.email));
                           appRouter.push(
                             const AWSBillingDashboardViewRoute(),
                           );
