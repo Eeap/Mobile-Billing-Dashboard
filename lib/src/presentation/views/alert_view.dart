@@ -5,7 +5,11 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:ionicons/ionicons.dart';
 import '../../config/router/app_router.dart';
 import '../../domain/models/alert_message.dart';
+import '../../domain/models/requests/alert_request.dart';
+import '../../domain/models/requests/aws_resources_request.dart';
 import '../cubits/alert/alert_cubit.dart';
+import '../cubits/login/login_cubit.dart';
+import '../cubits/remote_resources/remote_resources_cubit.dart';
 import '../widgets/alert_message_widget.dart';
 import '../widgets/alert_settings_widget.dart';
 import '../widgets/logout_widget.dart';
@@ -50,11 +54,22 @@ class AlertView extends HookWidget {
           onTap: (index) {
             switch (index) {
               case 0:
+                context
+                    .read<RemoteResourcesCubit>()
+                    .getAwsResources(AwsResourceRequest(
+                      email: context.read<LoginCubit>().state.email,
+                      region: context.read<RemoteResourcesCubit>().state.region,
+                    ));
                 appRouter.push(
                   const AWSBillingDashboardViewRoute(),
                 );
                 break;
               case 1:
+                context.read<AlertCubit>().getAlertMessages(
+                      AlertRequest(
+                        email: context.read<LoginCubit>().state.email,
+                      ),
+                    );
                 appRouter.push(
                   const AlertViewRoute(),
                 );
@@ -115,6 +130,7 @@ class AlertView extends HookWidget {
     bool noMoreData,
   ) {
     // 리소스 가공
+    messages.sort((a, b) => b.time!.compareTo(a.time!));
     return Padding(
       //container 세부 설정
       padding: const EdgeInsets.all(4),

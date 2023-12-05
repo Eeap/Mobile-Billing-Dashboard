@@ -5,16 +5,16 @@ import '../../../utils/constants/strings.dart';
 class AlertSettingRequest {
   final String email;
   final String timeEnd;
-  final int targetCount;
+  final int targetCost;
 
   AlertSettingRequest({
     this.email = defaultemail,
     this.timeEnd = "",
-    this.targetCount = 0,
+    this.targetCost = 0,
   });
   Map<String, dynamic> toJson() => {
         'timeEnd': timeEnd,
-        'targetCount': targetCount,
+        'targetCost': targetCost,
         'email': email,
       };
 }

@@ -63,7 +63,7 @@ class AlertSettingsWidget extends HookWidget {
                   context.read<AlertCubit>().setAlert(
                         AlertSettingRequest(
                           timeEnd: timeEnd.toString(),
-                          targetCount: int.parse(costController.text),
+                          targetCost: int.parse(costController.text),
                         ),
                       );
                   Navigator.of(context).pop();

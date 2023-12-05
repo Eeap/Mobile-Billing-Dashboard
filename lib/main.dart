@@ -4,6 +4,7 @@ import 'package:oktoast/oktoast.dart';
 
 import 'src/config/router/app_router.dart';
 import 'src/config/themes/app_theme.dart';
+import 'src/domain/models/requests/alert_request.dart';
 import 'src/domain/repositories/api_repository.dart';
 import 'src/locator.dart';
 import 'src/presentation/cubits/alert/alert_cubit.dart';
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AlertCubit(
             locator<ApiRepository>(),
-          )..getAlertMessages(),
+          )..getAlertMessages(AlertRequest()),
         ),
         BlocProvider(
           create: (context) => LoginCubit(
