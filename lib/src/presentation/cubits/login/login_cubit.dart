@@ -19,12 +19,11 @@ class LoginCubit extends BaseCubit<LoginState, String> {
       final response = await _apiRepository.login(
         request: request,
       );
-      state.email = request.email;
       if (response is DataSuccess) {
         final message = response.data!.message;
         final noData = false;
-
-        emit(LoginSuccess(message: message, noData: noData));
+        emit(LoginSuccess(
+            message: message, noData: noData, email: request.email));
       } else if (response is DataFailed) {
         emit(LoginFailed(error: response.error));
       }
@@ -34,4 +33,6 @@ class LoginCubit extends BaseCubit<LoginState, String> {
   Future<void> setInitial() async {
     emit(LoginInitial());
   }
+
+  String? get emailValue => state.email;
 }
