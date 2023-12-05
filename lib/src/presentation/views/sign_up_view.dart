@@ -45,8 +45,8 @@ class SignUpView extends HookWidget {
                 return const Center(child: CupertinoActivityIndicator());
               case SignUpFailed:
                 return CupertinoAlertDialog(
-                  title: const Text('로그인 실패'),
-                  content: const Text('로그인에 실패했습니다.'),
+                  title: const Text('회원가입 실패'),
+                  content: const Text('회원가입에 실패했습니다.'),
                   actions: <Widget>[
                     CupertinoDialogAction(
                       child: const Text('OK'),
@@ -60,8 +60,8 @@ class SignUpView extends HookWidget {
                 );
               case SignUpSuccess:
                 return CupertinoAlertDialog(
-                  title: const Text('로그인 성공'),
-                  content: const Text('로그인에 성공했습니다.'),
+                  title: const Text('회원가입 성공'),
+                  content: const Text('회원가입에 성공했습니다.'),
                   actions: <Widget>[
                     CupertinoDialogAction(
                       child: const Text('OK'),
