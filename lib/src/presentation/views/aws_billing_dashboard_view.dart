@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:fron_end/src/domain/repositories/api_repository.dart';
+import 'package:fron_end/src/locator.dart';
 import 'package:ionicons/ionicons.dart';
 
 import '../../config/router/app_router.dart';
@@ -25,8 +27,10 @@ class AWSBillingDashboardView extends HookWidget {
 
     useEffect(() {
       scrollController.onScrollEndsListener(() {
-        context.read<RemoteResourcesCubit>().getAwsResources(
-            AwsResourceRequest(email: context.read<LoginCubit>().email));
+        context.read<RemoteResourcesCubit>().getAwsResources(AwsResourceRequest(
+              email: context.read<LoginCubit>().state.email,
+              region: context.read<RemoteResourcesCubit>().state.region,
+            ));
       });
 
       return scrollController.dispose;
@@ -117,12 +121,28 @@ class AWSBillingDashboardView extends HookWidget {
         ),
         backgroundColor: Colors.transparent,
         body: BlocBuilder<RemoteResourcesCubit, RemoteResourcesState>(
+          buildWhen: (previous, current) => previous != current,
           builder: (_, state) {
             switch (state.runtimeType) {
               case RemoteResourcesLoading:
                 return const Center(child: CupertinoActivityIndicator());
               case RemoteResourcesFailed:
-                return const Center(child: Icon(Ionicons.refresh));
+                return Center(
+                  child: GestureDetector(
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 14),
+                      child: Icon(Ionicons.refresh, color: Colors.orangeAccent),
+                    ),
+                    onTap: () {
+                      BlocProvider.of<RemoteResourcesCubit>(context)
+                          .getAwsResources(AwsResourceRequest(
+                        email: context.read<LoginCubit>().state.email,
+                        region:
+                            context.read<RemoteResourcesCubit>().state.region,
+                      ));
+                    },
+                  ),
+                );
               case RemoteResourcesSuccess:
                 return _buildCosts(
                   scrollController,

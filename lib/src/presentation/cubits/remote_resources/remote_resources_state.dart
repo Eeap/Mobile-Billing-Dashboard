@@ -4,11 +4,12 @@ sealed class RemoteResourcesState extends Equatable {
   final List<Resource> resources;
   final bool noMoreData;
   final DioError? error;
-
+  final String region;
   const RemoteResourcesState({
     this.resources = const [],
     this.noMoreData = true,
     this.error,
+    this.region = "us-east-1",
   });
 
   @override
@@ -20,7 +21,8 @@ class RemoteResourcesLoading extends RemoteResourcesState {
 }
 
 class RemoteResourcesSuccess extends RemoteResourcesState {
-  const RemoteResourcesSuccess({super.resources, super.noMoreData});
+  const RemoteResourcesSuccess(
+      {super.resources, super.noMoreData, super.region});
 }
 
 class RemoteResourcesFailed extends RemoteResourcesState {
